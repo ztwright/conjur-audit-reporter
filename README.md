@@ -1,8 +1,10 @@
-# {Your project name}
-TODO: Insert brief description of your project
+# Audit-Reporter 
+
+Generates an role-based report on resource access control for application accounts (hosts).
+
+> ***NOTE***: For testing purposes only. Not recommended for production environments.
 
 ## Certification level
-TODO: Select the appropriate certification level section below, and remove all others.
 
 {Community}
 ![](https://img.shields.io/badge/Certification%20Level-Community-28A745?link=https://github.com/cyberark/community/blob/master/Conjur/conventions/certification-levels.md)
@@ -10,30 +12,26 @@ TODO: Select the appropriate certification level section below, and remove all o
 This repo is a **Community** level project. It's a community contributed project that **is not reviewed or supported
 by CyberArk**. For more detailed information on our certification levels, see [our community guidelines](https://github.com/cyberark/community/blob/master/Conjur/conventions/certification-levels.md#community).
 
-{Trusted}
-![](https://img.shields.io/badge/Certification%20Level-Trusted-007BFF?link=https://github.com/cyberark/community/blob/master/Conjur/conventions/certification-levels.md)
-
-This repo is a **Trusted** level project. It's been reviewed by CyberArk to verify that it will securely
-work with Conjur Open Source as documented. For more detailed  information on our certification levels, see
-[our community guidelines](https://github.com/cyberark/community/blob/master/Conjur/conventions/certification-levels.md#community).
-
-{Certified}
-![](https://img.shields.io/badge/Certification%20Level-Certified-6C757D?link=https://github.com/cyberark/community/blob/master/Conjur/conventions/certification-levels.md)
-
-This repo is a **Certified** level project. It's been reviewed by CyberArk to verify that it will securely
-work with CyberArk Conjur Enterprise as documented. In addition, CyberArk offers Enterprise-level support for these features. For
-more detailed  information on our certification levels, see [our community guidelines](https://github.com/cyberark/community/blob/master/Conjur/conventions/certification-levels.md#community).
-
 ## Requirements
 
-TODO: Add any requirements that apply to your project here. Which Conjur Open Source / Enterprise versions is it
-compatible with? Does it integrate with other tools / projects - and if so, what versions of those
-does it require?
+To generate the report, the following must be fulfilled:
+1. A Linux host machine (any distribution), with:
+  1. Connectivity to the Conjur Follower LB over 443
+2. A healthy Conjur Cluster w/ Leaders + Followers
 
 ## Usage instructions
 
-TODO: add details for how to use your project. Examples can be quite nice here. You should have
-a high level overview of the benefit of your project and its main use cases.
+To generate the report, simply migrate it to an applicable Linux-based host machine, and run the following command:
+`./build-report.exe -u URL -a ACCOUNT -s SERVICEACCT -p PASSWORD`
+
+where...
+
+ | Postitional Argument | Definition                          |
+ | -------------------- | ----------------------------------- |
+ | URL                  | The URL of the Conjur Follower LB   |
+ | ACCOUNT              | The Conjur Cluster account name[^1] |
+ | SERVICEACCT          | The service account running the executable |
+ | PASSWORD             | The password of the builtin conjur admin user |
 
 ## Contributing
 
