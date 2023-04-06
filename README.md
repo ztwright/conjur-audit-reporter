@@ -6,7 +6,6 @@ Generates an role-based report on resource access control for application accoun
 
 ## Certification level
 
-{Community}
 ![](https://img.shields.io/badge/Certification%20Level-Community-28A745?link=https://github.com/cyberark/community/blob/master/Conjur/conventions/certification-levels.md)
 
 This repo is a **Community** level project. It's a community contributed project that **is not reviewed or supported
@@ -32,6 +31,8 @@ where...
  | ACCOUNT              | The Conjur Cluster account name[^1] |
  | SERVICEACCT          | The service account running the executable |
  | PASSWORD             | The password of the builtin conjur admin user |
+
+[^1]: From `"account"` value in return JSON from `https://{{ conjur-url }}/info` endpoint
 
 ## Contributing
 
