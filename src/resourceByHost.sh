@@ -6,15 +6,13 @@
 # Args:
 #   -u --> Conjur URL
 #   -a --> Conjur account name
-#   -s --> Privileged service account running script
 #   -p --> Conjur audit-role password
 initArg(){
-    while getopts ":u:a:s:p:" flag
+    while getopts ":u:a:p:" flag
     do
         case "${flag}" in
             u) url=${OPTARG};;
             a) acct=${OPTARG};;
-            s) usr=${OPTARG};;
             p) pass=${OPTARG};;
         esac
     done
@@ -30,19 +28,19 @@ creds=$(echo "admin:$pass" | tr -d '\n' | base64)
 openssl s_client -connect $url:443 \
   -showcerts </dev/null 2> /dev/null | \
   awk '/BEGIN CERTIFICATE/,/END CERTIFICATE/ {print $0}' \
-  > /home/$usr/conjur.pem
+  > $HOME/conjur.pem
 
 # INSTALL: jq for formatting output
 # sudo yum install jq -y
 
 # GET: API key for admin user
-apikey=$(curl --cacert /home/$usr/conjur.pem --silent --location --request GET "https://$url/authn/$acct/login" -H "Authorization: Basic $creds" --data-raw "")
+apikey=$(curl --cacert $HOME/conjur.pem --silent --location --request GET "https://$url/authn/$acct/login" -H "Authorization: Basic $creds" --data-raw "")
 
 # POST: Auth-Z token for admin user
-token=$(curl --cacert /home/$usr/conjur.pem --silent --location --request POST "https://$url/authn/$acct/admin/authenticate" -H 'Content-Type: application/json' -H 'Accept-Encoding: base64' --data-raw "$apikey")
+token=$(curl --cacert $HOME/conjur.pem --silent --location --request POST "https://$url/authn/$acct/admin/authenticate" -H 'Content-Type: application/json' -H 'Accept-Encoding: base64' --data-raw "$apikey")
 
 # GET: Conjur hosts and send to file
-curl --cacert /home/$usr/conjur.pem --silent --location --request GET "https://$url/resources/$acct?kind=host" -H "Authorization: Token token=\"$token\"" > tmp.json
+curl --cacert $HOME/conjur.pem --silent --location --request GET "https://$url/resources/$acct?kind=host" -H "Authorization: Token token=\"$token\"" > tmp.json
 
 cat tmp.json | grep -o '"id":"[^"]*' > tmp2.json
 cat tmp2.json | grep -o "$acct[^\"]*" > decode.json
@@ -62,7 +60,7 @@ do
 	
 	echo "{\"hostid\": "\"$host\""," >> hosts.json
         echo "\"resources\": [" >> hosts.json
-       	resources="$(curl --cacert /home/$usr/conjur.pem --silent --request GET "https://$url/resources/$acct?role=$hostId" -H "Authorization: Token token=\"$token\"")"
+       	resources="$(curl --cacert $HOME/conjur.pem --silent --request GET "https://$url/resources/$acct?role=$hostId" -H "Authorization: Token token=\"$token\"")"
 	resources=$(echo $resources | sed 's/^\[//g')
 	echo $resources | sed 's/]$//g' >> hosts.json
 	echo "]}," >> hosts.json

@@ -1,8 +1,8 @@
-# Audit-Reporter 
+# Conjur-Audit-Report
 
-Generates an role-based report on resource access control for application accounts (hosts).
+Generates a role-based report on resource access control for application accounts (hosts) stored as resource data in Conjur.
 
-> ***NOTE***: For testing purposes only. Not recommended for production environments.
+> **Note**: For testing purposes only. Not recommended for production environments.
 
 ## Certification level
 
@@ -14,25 +14,35 @@ by CyberArk**. For more detailed information on our certification levels, see [o
 ## Requirements
 
 To generate the report, the following must be fulfilled:
+
 1. A Linux host machine (any distribution), with:
-  1. Connectivity to the Conjur Follower LB over 443
+
+  * Connectivity to the Conjur Follower LB over 443
+
 2. A healthy Conjur Cluster w/ Leaders + Followers
+
+3. Install ``jq`` ``[i]`` to the machine running the report
+---
+> `[i]`: jq is a well-known JSON parser and interpretter for shell; Read more about jq in the [jq docs](https://jqlang.github.io/jq/manual/).
+
 
 ## Usage instructions
 
 To generate the report, simply migrate it to an applicable Linux-based host machine, and run the following command:
-`./build-report.exe -u URL -a ACCOUNT -s SERVICEACCT -p PASSWORD`
+
+```
+./build-report.exe -u URL -a ACCOUNT -p PASSWORD
+```
 
 where...
 
- | Postitional Argument | Definition                          |
- | -------------------- | ----------------------------------- |
- | URL                  | The URL of the Conjur Follower LB   |
- | ACCOUNT              | The Conjur Cluster account name[^1] |
- | SERVICEACCT          | The service account running the executable |
- | PASSWORD             | The password of the builtin conjur admin user |
-
-[^1]: From `"account"` value in return JSON from `https://{{ conjur-url }}/info` endpoint
+ | Postitional Argument | Example Value | Definition                     |
+ | -------------------- | ------------- | ------------------------------ |
+ | URL                  | ``follower.conjur.some.site.com`` | The URL of the Conjur Follower LB - no ``https://`` prefix   |
+ | ACCOUNT              | ``dev``     | The Conjur Cluster account name `[i]` |
+ | PASSWORD             | ``s0me4p#s5!``  | The password of the builtin conjur admin user |
+---
+> `[i]`: From `"account"` value in return JSON from `https://{{ conjur-url }}/info` endpoint
 
 ## Contributing
 
@@ -41,7 +51,7 @@ of our development workflows, please see our [contributing guide](CONTRIBUTING.m
 
 ## License
 
-Copyright (c) 2020 CyberArk Software Ltd. All rights reserved.
+Copyright (c) 2023 CyberArk Software Ltd. All rights reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
