@@ -37,6 +37,7 @@ if "returncode=0" in str(exit_code):
         print("OS Error: An unexpected error occurred.", err)
     except ValueError:
         print("Invalid Value: Invalid entries in request.")
+        print(path_to_sh)
     except ConnectionError as err:
         print("Connection Error: Verify connectivity to Conjur.")
 else:
