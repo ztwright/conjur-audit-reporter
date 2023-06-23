@@ -5,8 +5,7 @@ from json_2_excel import convertXlsx
 import os
 import sys
 
-bundle_dir = getattr(sys, '_MEIPASS', os.path.abspath(os.path.dirname(__file__)))
-path_to_sh = os.path.abspath(bundle_dir)
+path_to_sh = os.path.abspath(os.path.dirname(__file__))
 
 argParser = argparse.ArgumentParser()
 requiredNamed = argParser.add_argument_group("required arguments")
