@@ -39,7 +39,8 @@ def convertXlsx(source_name="host_resources.json"):
     
     # Drop unnecessary columns from JSON response in DataFrame df2
     df2 = df2.drop(
-        columns=['replication_sets', 'policy']
+        columns=['replication_sets', 'policy'],
+        errors='ignore'
     )
     
     # Rename columns to descriptive label of data
