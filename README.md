@@ -16,8 +16,8 @@ by CyberArk**. For more detailed information on our certification levels, see [o
 To generate the report, the following must be fulfilled:
 
   1.  A Linux host machine (any distribution), with:
-    1.  Connectivity to the Conjur Follower LB over 443
-    2.  Docker or Podman installed
+      -  Connectivity to the Conjur Follower LB over 443
+      -  Docker or Podman installed
 
   2.  A healthy Conjur Cluster w/ Leaders + Followers
 
