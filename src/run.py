@@ -32,6 +32,7 @@ if "returncode=0" in str(exit_code):
     try:
         convertXlsx()
         s.run(["rm -Rf host_resources.json"], executable='/bin/bash', shell=True, check=True)
+        s.run(["mv *.xlsx export_location/"], executable='/bin/bash', shell=True, check=True)
     except OSError as err:
         print("OS Error: An unexpected error occurred.", err)
     except ValueError:

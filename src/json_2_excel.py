@@ -52,13 +52,14 @@ def convertXlsx(source_name="host_resources.json"):
     df3 = df2.drop(
         columns=['role ( groupid | hostid )']
     )
+    
     df3 = df3.pivot_table(
         index = ["member ( hostid )", "resourceid", "privilege"],
         values = ["member ( hostid )", "resourceid", "privilege"]
     )
     
-    # Current date object for output .xlsx file
-    current_date = datetime.date.today()
+    # Current date object for output .xlsx file (UTC ISO 8601-format)
+    current_date = datetime.datetime.utcnow().isoformat()
     
     # Write DataFrames df1, df2, df3 out to Excel-based output
     with pd.ExcelWriter(str(current_date) + '_resources-by-apphost.xlsx') as writer:
