@@ -15,24 +15,49 @@ by CyberArk**. For more detailed information on our certification levels, see [o
 
 To generate the report, the following must be fulfilled:
 
-1. A Linux host machine (any distribution), with:
+  1.  A Linux host machine (any distribution), with:
+    * Connectivity to the Conjur Follower LB over 443
+    * Docker or Podman installed
 
-  * Connectivity to the Conjur Follower LB over 443
+  2.  A healthy Conjur Cluster w/ Leaders + Followers
 
-2. A healthy Conjur Cluster w/ Leaders + Followers
+  3.  Install ``jq`` ``[i]`` to the machine running the report
 
-3. Install ``jq`` ``[i]`` to the machine running the report
----
 > `[i]`: jq is a well-known JSON parser and interpretter for shell; Read more about jq in the [jq docs](https://jqlang.github.io/jq/manual/).
 
+  4.  Ensure that a certificate is available in the relative project directory under `src/`:
+  ```bash
+  $ ls -l
+  total 592K
+  -rw-r--r--. 1 ec2-user ec2-user 563K Feb  3 20:37 2024-07-02_resources-by-apphost.xlsx
+  -rw-r--r--. 1 ec2-user ec2-user  607 Feb  3 22:03 Dockerfile
+  drwxr-xr-x. 2 ec2-user ec2-user   41 Feb  3 20:37 __pycache__
+  -rwxr-xr-x. 1 ec2-user ec2-user 1.1K Feb  3 20:37 build.sh
+  -rw-r--r--. 1 ec2-user ec2-user 6.3K Feb  3 21:56 conjur.crt
+  -rw-r--r--. 1 ec2-user ec2-user 2.8K Feb  3 21:36 json_2_excel.py
+  -rwxr-xr-x. 1 ec2-user ec2-user 2.7K Feb  3 20:37 resourceByHost.sh
+  -rw-r--r--. 1 ec2-user ec2-user    0 Feb  3 22:03 root.pem
+  -rw-r--r--. 1 ec2-user ec2-user 1.8K Feb  3 20:37 run.py
+  ```
+
+  If it is not, use the following command to store the certificate locally:
+  ```bash
+  CONJUR_URL="follower.conjur.acme.com"
+  openssl s_client -showcerts -connect $CONJUR_URL:443 < /dev/null 2> /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > conjur.crt
+  ```
 
 ## Usage instructions
 
-To generate the report, simply migrate it to an applicable Linux-based host machine, and run the following command:
+  1.  Run `./build.sh` to build the runtime environment for the script, as well as for the script itself.
 
-```
-./build-report.exe -u URL -a ACCOUNT -p PASSWORD
-```
+  2.  To generate the report, simply migrate it to an applicable Linux-based host machine, and run the following command:
+
+  ```bash
+  URL="follower.conjur.acme.com"              # Follower LB Vanity URL
+  ACCOUNT="conjur"                            # Account name (i.e., conjur)
+  PASSWORD="somePass1!"                       # Password of the admin account
+  docker exec conjur-audit python3 run.py -u $URL -a $ACCOUNT -p $PASSWORD
+  ```
 
 where...
 
@@ -42,7 +67,15 @@ where...
  | ACCOUNT              | ``dev``     | The Conjur Cluster account name `[i]` |
  | PASSWORD             | ``s0me4p#s5!``  | The password of the builtin conjur admin user |
 ---
-> `[i]`: From `"account"` value in return JSON from `https://{{ conjur-url }}/info` endpoint
+>  `[i]`: From `"account"` value in return JSON from `https://{{ conjur-url }}/info` endpoint
+
+>  Run the following command to get the account name: `curl -k https://$CONJUR_URL/info | jq .configuration.conjur.account`
+
+  3.  Once the report has finished generating, run the following commands to clean up:
+  ```bash
+  docker rm -f conjur-audit
+  docker image rm -f conjur-audit
+  ```
 
 ## Contributing
 

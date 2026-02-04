@@ -25,12 +25,6 @@ initArg $@
 # Preprocessing environment vars
 creds=$(echo "admin:$pass" | tr -d '\n' | base64)
 
-# openssl command to get public certificate back from Conjur
-openssl s_client -connect $url:443 \
-  -showcerts </dev/null 2> /dev/null | \
-  awk '/BEGIN CERTIFICATE/,/END CERTIFICATE/ {print $0}' \
-  > $HOME/conjur.pem
-
 # INSTALL: jq for formatting output
 # sudo yum install jq -y
 # GET: API key for admin user
