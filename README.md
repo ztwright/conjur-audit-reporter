@@ -68,6 +68,7 @@ where...
  | PASSWORD             | ``s0me4p#s5!``  | The password of the builtin conjur admin user |
 ---
 >  `[i]`: From `"account"` value in return JSON from `https://{{ conjur-url }}/info` endpoint
+
 >  Run the following command to get the account name: `curl -k https://$CONJUR_URL/info | jq .configuration.conjur.account`
 
   3.  Once the report has finished generating, run the following commands to clean up:
