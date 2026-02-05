@@ -28,16 +28,13 @@ To generate the report, the following must be fulfilled:
   4.  Ensure that a certificate is available in the relative project directory under `src/`:
   ```bash
   $ ls -l
-  total 592K
-  -rw-r--r--. 1 ec2-user ec2-user 563K Feb  3 20:37 2024-07-02_resources-by-apphost.xlsx
-  -rw-r--r--. 1 ec2-user ec2-user  607 Feb  3 22:03 Dockerfile
-  drwxr-xr-x. 2 ec2-user ec2-user   41 Feb  3 20:37 __pycache__
-  -rwxr-xr-x. 1 ec2-user ec2-user 1.1K Feb  3 20:37 build.sh
-  -rw-r--r--. 1 ec2-user ec2-user 6.3K Feb  3 21:56 conjur.crt
-  -rw-r--r--. 1 ec2-user ec2-user 2.8K Feb  3 21:36 json_2_excel.py
-  -rwxr-xr-x. 1 ec2-user ec2-user 2.7K Feb  3 20:37 resourceByHost.sh
-  -rw-r--r--. 1 ec2-user ec2-user    0 Feb  3 22:03 root.pem
-  -rw-r--r--. 1 ec2-user ec2-user 1.8K Feb  3 20:37 run.py
+  total 20
+  -rw-r--r--. 1 ec2-user ec2-user  637 Feb  4 23:10 Dockerfile
+  -rwxr-xr-x. 1 ec2-user ec2-user  854 Feb  4 23:10 build.sh
+  -rw-r--r--. 1 ec2-user ec2-user    0 Feb  5 14:44 conjur.crt
+  -rw-r--r--. 1 ec2-user ec2-user 2903 Feb  4 23:10 json_2_excel.py
+  -rwxr-xr-x. 1 ec2-user ec2-user 2515 Feb  4 23:10 resourceByHost.sh
+  -rw-r--r--. 1 ec2-user ec2-user 1889 Feb  4 23:10 run.py
   ```
 
   If it is not, use the following command to store the certificate locally:
